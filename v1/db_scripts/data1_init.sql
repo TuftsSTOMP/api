@@ -147,7 +147,7 @@ INSERT INTO Stomper (f_name, l_name, email, username, pwd, permissions)
 ('Melissa','Moore','melissa.moore@tufts.edu','mmoore01','stomp','110'),
 ('Lexi','Gilligan','alexandra.gilligan@tufts.edu','lgilli01','stomp','110'),
 ('Azmina','Karukappadath','azmina.karukappadath@tufts.edu','akaruk01','stomp','110'),
-('Terrence','Roh','troh01@tufts.edu','troh01','stomp','110'),
+('Terrence','Roh','troh01@tufts.edu','troh01','stomp','110')
 ('Becca','Larson','rebecca.larson@tufts.edu','blarso01','stomp','110'),
 ('Vanessa','Pinto','vanessa.pinto@tufts.edu','vpinto01','stomp','110'),
 ('Camille-Louise','Mbayo','camille-louise.mbayo@tufts.edu','cmbayo01','stomp','110'),

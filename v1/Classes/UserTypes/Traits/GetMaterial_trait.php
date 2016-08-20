@@ -11,7 +11,6 @@
 			
 			/Stomp/material/%material%/info
 			/Stomp/material/%material%/transactionTotal
-			/Stomp/material/%material%/transactionTeam
 			
 			/Stomp/getAllMaterials
 

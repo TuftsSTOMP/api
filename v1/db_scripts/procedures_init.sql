@@ -81,4 +81,22 @@ BEGIN
 	SELECT _mid;
 END$$
 
+
+DROP PROCEDURE IF EXISTS GetUserPermissionsNames $$
+CREATE PROCEDURE GetUserPermissionsNames (permissions VARCHAR(40))
+BEGIN
+	Type PermissionsArray is VARRAY(0) OF VARCHAR(40)
+	PermissionNames PermissionsArray
+
+	FOR n IN LEN(permissions)
+		IF (n == "1")
+			PermissionNames.extend;
+			
+
+	END LOOP;
+
+
+END$$
+
+
 DELIMITER ; --reset delimiter
