@@ -35,17 +35,21 @@
 			$queryArray[] = "SELECT g.tid,u.uid,u.permissions FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) 
 								WHERE u.username = '" . $u . "' and u.pwd='" . $p . "' limit 1";
 			$result = $this->implementQueryStream($queryArray);
-
+		
 			if ($result == null) throw new Exception("Invalid Login Credentials");
-			return array("tid" => $result[0]["tid"], "uid" => $result[0]["uid"], "scope" => $result[0]["permissions"]);
+
+			return array(
+				"tid" => $result[0]["tid"], 
+				"uid" => $result[0]["uid"], 
+				"scope" => $result[0]["permissions"]);
 		}
 		
+		/* Generate the Json Web Token for a user */
 		private function _generateJWT($user) {
-
-			$tokenId    = base64_encode(mcrypt_create_iv(32));
             $issuedAt   = time();
-            $notBefore  = $issuedAt + 10;  //Adding 10 seconds
-            $expire     = $this->config->get('END_OF_SEMESTER_TIME');//Expiration date. End of semester
+            $notBefore  = $issuedAt + 15;  //Adding 10 seconds
+        	
+	$expire     = $this->config->get('END_OF_SEMESTER_TIME');//Expiration date. End of semester
             $serverName = $this->config->get('SERVER_NAME');
             $secretKey = base64_decode($this->config->get('JWT')->get('key'));
             $algorithm = $this->config->get('JWT')->get('algorithm');
@@ -68,7 +72,7 @@
                         $secretKey, // The signing key
                         $algorithm  // Algorithm used to sign the token
                     );
-
+	
             return json_encode(array(
             	'stomp_jwt' => $jwt, 
             	'stomp_userType' => $user["scope"],

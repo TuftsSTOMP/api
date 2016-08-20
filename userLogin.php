@@ -24,7 +24,7 @@
 
 	try {
     	$login = new Login($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
-    	echo $login->processLogin() . "\n";
+    	echo $login->processLogin()  . "\n";
 	} catch (Exception $e) {
     	echo json_encode(Array('error' => $e->getMessage())) . "\n";
 	}

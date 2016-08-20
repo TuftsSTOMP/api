@@ -5,6 +5,14 @@ CREATE DATABASE Stomp_test;
 
 USE Stomp_test;
 
+
+DROP TABLE IF EXISTS UserPermission;
+CREATE TABLE UserPermission (
+	pid INT NOT NULL AUTO_INCREMENT,
+	permissionName VARCHAR(30) NOT NULL,
+	PRIMARY KEY ( pid )
+);
+
 DROP TABLE IF EXISTS School;
 CREATE TABLE School (
 	sid INT NOT NULL AUTO_INCREMENT,
