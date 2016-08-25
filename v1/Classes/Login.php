@@ -32,16 +32,18 @@
 		
 		/* getUserDetailsWithPassword */
 		private function _getPermissionsOfUserWithEncryptedPassword($u, $p) {
-			$queryArray[] = "SELECT g.tid,u.uid,u.permissions FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) 
+			$queryArray[] = "SELECT g.tid,u.uid,r.role_name FROM Stomper AS u 
+								LEFT JOIN Stomper_Team AS g USING (uid) 
+								INNER JOIN UserRole as r USING (role_id)
 								WHERE u.username = '" . $u . "' and u.pwd='" . $p . "' limit 1";
 			$result = $this->implementQueryStream($queryArray);
-		
+			
 			if ($result == null) throw new Exception("Invalid Login Credentials");
 
 			return array(
 				"tid" => $result[0]["tid"], 
 				"uid" => $result[0]["uid"], 
-				"scope" => $result[0]["permissions"]);
+				"scope" => $result[0]["role_name"]);
 		}
 		
 		/* Generate the Json Web Token for a user */
@@ -49,10 +51,11 @@
             $issuedAt   = time();
             $notBefore  = $issuedAt + 15;  //Adding 10 seconds
         	
-	$expire     = $this->config->get('END_OF_SEMESTER_TIME');//Expiration date. End of semester
+			$expire     = $this->config->get('END_OF_SEMESTER_TIME');//Expiration date. End of semester
             $serverName = $this->config->get('SERVER_NAME');
             $secretKey = base64_decode($this->config->get('JWT')->get('key'));
             $algorithm = $this->config->get('JWT')->get('algorithm');
+            $apiVersion = $this->config->get('API_VERSION_NUMBER');
             
             $data = [
             	'iat'  => $issuedAt,         // Issued at: time when the token was generated
@@ -63,7 +66,8 @@
                 'data' => [
                 	'tid' 	=> $user["tid"],	// Data related to the signer user
                 	'uid' 	=> $user["uid"], 	// userid from the users table
-                    'scope' => $user["scope"] 	// user scope
+                    'scope' => $user["scope"], 	// user scope
+                    'api_version' => $apiVersion //The api version used to generate the token
                 ]
             ];
             
@@ -75,8 +79,8 @@
 	
             return json_encode(array(
             	'stomp_jwt' => $jwt, 
-            	'stomp_userType' => $user["scope"],
-            	'stomp_serverName' => $serverName
+            	'stomp_user' => $user["scope"],
+            	'stomp_serverName' => $serverName,
             	)); 
 		}
 	} ## Login

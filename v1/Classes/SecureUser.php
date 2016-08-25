@@ -9,12 +9,13 @@
 	class SecureUser {
 		private static $uid = null;
     	private static $tid = null;
+        private static $api_version = null;
     	
     	public static function generate($request, $origin) {
     		try {
 				$userType = self::_getAuthorized();
 				if(class_exists($userType)) {
-					return new $userType($request, self::$uid, self::$tid);
+					return new $userType($request, self::$uid, self::$tid, self::$api_version);
 				}
 				throw new Exception("Invalid Permissions");
 			} catch  (Excpetion $e) {
@@ -42,6 +43,8 @@
     			/* perhaps checks required to see if token->data even exists*/
     			self::$uid = $token->data->uid;
     			self::$tid = $token->data->tid;
+                self::$api_version = $token->data->api_version;
+
     			return $token->data->scope;
     		} catch (Exception $e) {
     			throw $e;

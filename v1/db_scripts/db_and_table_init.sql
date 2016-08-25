@@ -8,9 +8,26 @@ USE Stomp_test;
 
 DROP TABLE IF EXISTS UserPermission;
 CREATE TABLE UserPermission (
-	pid INT NOT NULL AUTO_INCREMENT,
-	permissionName VARCHAR(30) NOT NULL,
-	PRIMARY KEY ( pid )
+	permission_id INT NOT NULL AUTO_INCREMENT,
+	permission_name VARCHAR(30) NOT NULL,
+	PRIMARY KEY ( permission_id )
+);
+
+DROP TABLE IF EXISTS UserRole;
+CREATE TABLE UserRole(
+	role_id INT NOT NULL AUTO_INCREMENT,
+	role_name VARCHAR(30) NOT NULL,
+	PRIMARY KEY	( role_id )
+);
+
+DROP TABLE IF EXISTS Role_Permission;
+CREATE TABLE Role_Permission (
+	zid INT NOT NULL AUTO_INCREMENT,
+	role_id INT NOT NULL,
+	permission_id INT NOT NULL,
+	FOREIGN KEY ( role_id ) REFERENCES UserRole(role_id),
+	FOREIGN KEY ( permission_id ) REFERENCES UserPermission(permission_id),
+	PRIMARY KEY ( zid )
 );
 
 DROP TABLE IF EXISTS School;
@@ -65,7 +82,8 @@ CREATE TABLE Stomper (
 	l_name VARCHAR(30) NOT NULL,
 	phone CHAR(11),
 	email VARCHAR(50) NOT NULL,
-	permissions VARCHAR(30) NOT NULL,
+	role_id INT NOT NULL,
+	FOREIGN KEY (role_id) REFERENCES UserRole(role_id),
 	PRIMARY KEY ( uid )
 );
 

@@ -81,20 +81,42 @@ BEGIN
 	SELECT _mid;
 END$$
 
+--
+-- LOOK for more efficient method to map the binaryString to list of permission Names
+-- Recursive cte solution possibly
 
-DROP PROCEDURE IF EXISTS GetUserPermissionsNames $$
-CREATE PROCEDURE GetUserPermissionsNames (permissions VARCHAR(40))
+--			INSERT INTO @returnTable
+--			SELECT permissionName FROM UserPermission where pid = _pos;
+--
+
+
+DROP PROCEDURE IF EXISTS GetUserPermissionNames $$
+CREATE PROCEDURE GetUserPermissionNames (permissionsBinary VARCHAR(40))
 BEGIN
-	Type PermissionsArray is VARRAY(0) OF VARCHAR(40)
-	PermissionNames PermissionsArray
 
-	FOR n IN LEN(permissions)
-		IF (n == "1")
-			PermissionNames.extend;
-			
+	DECLARE _pos INT;
+	DECLARE _length INT;
+	DECLARE _returnList VARCHAR(100) DEFAULT '';
 
-	END LOOP;
+	SET _length = (SELECT COUNT(pid) FROM UserPermission);
+	SET _pos = 1;
 
+	WHILE _pos <= _length DO
+	BEGIN
+		IF (SUBSTRING(permissionsBinary, _pos, 1) <> "0") THEN
+			IF _returnList <> '' THEN
+				SET _returnList = CONCAT (_returnList, ', ', (SELECT permissionName from UserPermission where pid = _pos));
+			ELSE
+				SET _returnList = (SELECT permissionName from UserPermission where pid = _pos);
+			END IF;
+		
+		END IF;
+
+		SET _pos = _pos + 1;
+	END;
+	END WHILE;
+	
+	SELECT _returnList;
 
 END$$
 

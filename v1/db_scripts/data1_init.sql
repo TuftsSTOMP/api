@@ -15,15 +15,29 @@ DELETE FROM Team;
 DELETE FROM School;
 DELETE FROM Stomper;
 DELETE FROM UserPermission;
+DELETE FROM UserRole;
+DELETE FROM Role_Permission;
 
 
 ALTER TABLE UserPermission AUTO_INCREMENT = 1;
-INSERT INTO UserPermission (permissionName) 
+INSERT INTO UserPermission (permission_name) 
 	VALUES 
 ("stomper"),
 ("getMaterial"),
 ("createAndEditUser");
 
+ALTER TABLE UserRole AUTO_INCREMENT = 1;
+INSERT INTO UserRole (role_name)
+	VALUES
+	("SuperAdmin"),
+	("Stomper");
+
+ALTER TABLE Role_Permission AUTO_INCREMENT = 1;
+INSERT INTO Role_Permission (role_id, permission_id)
+	VALUES
+	(2, 1),
+	(2, 2),
+	(1, 3);
 
 
 ALTER TABLE School AUTO_INCREMENT = 1;
@@ -89,73 +103,73 @@ INSERT INTO Teacher (f_name, l_name, email, grade, sid)
 
 
 ALTER TABLE Stomper AUTO_INCREMENT = 1;
-INSERT INTO Stomper (f_name, l_name, email, username, pwd, permissions)
+INSERT INTO Stomper (f_name, l_name, email, username, pwd, role_id)
 	VALUES 
-('Devyn', 'Curley', 'InvalidEmail', 'devyn01', 'stomp','011'),
-('Alexandria','Trombley','InvalidEmail@tufts.edu','atromb01','stomp','110'),
-('Ross','Kamen','Ross.Kamen@tufts.edu','rkamen01','stomp','110'),
-('Marc','Bucchieri','marc.bucchieri@tufts.edu','mbucch01','stomp','110'),
-('Laura','Fradin','laura.coughlin@tufts.edu','lfradi01','stomp','110'),
-('Suneeth','Keerthy','suneeth.keerthy@tufts.edu','skeert01','stomp','110'),
-('Akari','Miki','Akari.miki@tufts.edu','amiki01','stomp','110'),
-('Jen','Scinto','jennifer.scinto@tufts.edu','jscint01','stomp','110'),
-('Emily','Lai','emily.lai@tufts.edu','elai01','stomp','110'),
-('Erica','Albert','Erica.albert@tufts.edu','ealber01','stomp','110'),
-('Shelley','Kwok','shelley.kwok@tufts.edu','skwok01','stomp','110'),
-('Rohan','Joshi','Rohan.Joshi@tufts.edu','rjoshi01','stomp','110'),
-('Alex','Klein','Alexander.klein@tufts.edu','aklein01','stomp','110'),
-('Katherine','McMurray','katherine.mcmurray@tufts.edu','kmcmur01','stomp','110'),
-('Sara','Hogan','sara.hogan@tufts.edu','shogan01','stomp','110'),
-('Susan','Bitetti','smbitetti@gmail.com','sbitet01','stomp','110'),
-('Camila','Menard','camila.menard@tufts.edu','cmenar01','stomp','110'),
-('Tanya','Sinha','tanyasinha23@gmail.com','tsinha01','stomp','110'),
-('Daniela','Torres','daniela.torres@tufts.edu','dtorre01','stomp','110'),
-('Rohini','Lok','Rohini.Loke@tufts.edu','rlok01','stomp','110'),
-('Yash','Gurditta','yash.gurditta@tufts.edu','ygurdi01','stomp','110'),
-('Laura','Coughlin','laura.coughlin@tufts.edu','lcough01','stomp','110'),
-('Camila','Solorzano','camila.solorzano@tufts.edu','csolor01','stomp','110'),
-('Lois','Moon','lois.moon@tufts.edu','lmoon01','stomp','110'),
-('Sam','Heilbron','samheilbron@gmail.com','sheilb01','stomp','110'),
-('Kirsten','Jorgensen','kirsten.jorgensen@tufts.edu','kjorge01','stomp','110'),
-('Brian','Bertini','InvalidEmail@tufts.edu','bberti01','stomp','110'),
-('Eva','Philips','eva.philips@tufts.edu','ephili01','stomp','110'),
-('Grace','Reilly','grace.reilly@tufts.edu','greill01','stomp','110'),
-('Rachel','Kramer','rachelerinkramer@gmail.com','rkrame01','stomp','110'),
-('Orian','Sneor','alexandria.trombley@tufts.edu','osneor01','stomp','110'),
-('Ty','Nguyen','Nhu_Q.Nguyen@tufts.edu','tnguye01','stomp','110'),
-('Mile','Krstev','mile.krstev@tufts.edu','mkrste01','stomp','110'),
-('Caroline','Passaacque','caroline.passalacqua@tufts.edu','cpassa01','stomp','110'),
-('Emma','Coltoff','emma.coltoff@tufts.edu','ecolto01','stomp','110'),
-('Zack','Nassar','zack.nassar@tufts.edu','znassa01','stomp','110'),
-('Jillian','Gerke','jillian.gerke@tufts.edu','jgerke01','stomp','110'),
-('Caitlin','Duffy','caitlin.duffy@tufts.edu','cduffy01','stomp','110'),
-('Lisa','Fantini','lisa.fantini@tufts.edu','lfanti01','stomp','110'),
-('Elizabeth','Dossett','Elizabeth.dossett@tufts.edu','edosse01','stomp','110'),
-('Jerry','*','brian.bertini@tufts.edu','j*01','stomp','110'),
-('Simone(Daisy)','Draper','simone.draper@tufts.edu','sdrape01','stomp','110'),
-('Jhanel','Chew','jhanel.chew@gmail.com','jchew01','stomp','110'),
-('Sanya','Pradhan','sanyapradhan28@gmail.com','spradh01','stomp','110'),
-('Michael','Edegware','Michael.Edegware@tufts.edu','medegw01','stomp','110'),
-('Sara','Pearce-Probst','Sara.Pearce_Probst@tufts.edu','spearc01','stomp','110'),
-('Emma','Cus','emma.cusack@tufts.edu','ecus01','stomp','110'),
-('Jordan-Tate','Thomas','jordan-tate.thomas@tufts.edu','jthoma01','stomp','110'),
-('Sonja','Hartmann','InvalidEmail@tufts.edu','shartm01','stomp','110'),
-('Tommy','George','Thomas.George@tufts.edu','tgeorg01','stomp','110'),
-('Evan','Lorey','Evan.Lorey@tufts.edu','elorey01','stomp','110'),
-('Chris','Keyes','christopher.keyes@tufts.edu','ckeyes01','stomp','110'),
-('Eleanor','Richard','eleanor.richard@gmail.com','ericha01','stomp','110'),
-('Melissa','Moore','melissa.moore@tufts.edu','mmoore01','stomp','110'),
-('Lexi','Gilligan','alexandra.gilligan@tufts.edu','lgilli01','stomp','110'),
-('Azmina','Karukappadath','azmina.karukappadath@tufts.edu','akaruk01','stomp','110'),
-('Terrence','Roh','troh01@tufts.edu','troh01','stomp','110')
-('Becca','Larson','rebecca.larson@tufts.edu','blarso01','stomp','110'),
-('Vanessa','Pinto','vanessa.pinto@tufts.edu','vpinto01','stomp','110'),
-('Camille-Louise','Mbayo','camille-louise.mbayo@tufts.edu','cmbayo01','stomp','110'),
-('Edward','Futterman','Edward.Futterman@tufts.edu','efutte01','stomp','110'),
-('Michael','Seleman','Michael.Seleman@tufts.edu','mselem01','stomp','110'),
-('Rati','Srinivasan','Rati.Srinivasan7@gmail.com','rsrini01','stomp','110'),
-('Sam','Slate','Samuel.Slate@tufts.edu','sslate01','stomp','110'),
-('Tom','Depalma','thomas.depalms@tufts.edu','tdepal01','stomp','110');
+('Devyn', 'Curley', 'InvalidEmail', 'devyn01', 'stomp',(SELECT role_id from UserRole where role_name = "SuperAdmin")),
+('Alexandria','Trombley','InvalidEmail@tufts.edu','atromb01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Ross','Kamen','Ross.Kamen@tufts.edu','rkamen01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Marc','Bucchieri','marc.bucchieri@tufts.edu','mbucch01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Laura','Fradin','laura.coughlin@tufts.edu','lfradi01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Suneeth','Keerthy','suneeth.keerthy@tufts.edu','skeert01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Akari','Miki','Akari.miki@tufts.edu','amiki01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Jen','Scinto','jennifer.scinto@tufts.edu','jscint01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Emily','Lai','emily.lai@tufts.edu','elai01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Erica','Albert','Erica.albert@tufts.edu','ealber01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Shelley','Kwok','shelley.kwok@tufts.edu','skwok01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Rohan','Joshi','Rohan.Joshi@tufts.edu','rjoshi01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Alex','Klein','Alexander.klein@tufts.edu','aklein01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Katherine','McMurray','katherine.mcmurray@tufts.edu','kmcmur01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sara','Hogan','sara.hogan@tufts.edu','shogan01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Susan','Bitetti','smbitetti@gmail.com','sbitet01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Camila','Menard','camila.menard@tufts.edu','cmenar01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Tanya','Sinha','tanyasinha23@gmail.com','tsinha01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Daniela','Torres','daniela.torres@tufts.edu','dtorre01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Rohini','Lok','Rohini.Loke@tufts.edu','rlok01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Yash','Gurditta','yash.gurditta@tufts.edu','ygurdi01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Laura','Coughlin','laura.coughlin@tufts.edu','lcough01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Camila','Solorzano','camila.solorzano@tufts.edu','csolor01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Lois','Moon','lois.moon@tufts.edu','lmoon01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sam','Heilbron','samheilbron@gmail.com','sheilb01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Kirsten','Jorgensen','kirsten.jorgensen@tufts.edu','kjorge01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Brian','Bertini','InvalidEmail@tufts.edu','bberti01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Eva','Philips','eva.philips@tufts.edu','ephili01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Grace','Reilly','grace.reilly@tufts.edu','greill01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Rachel','Kramer','rachelerinkramer@gmail.com','rkrame01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Orian','Sneor','alexandria.trombley@tufts.edu','osneor01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Ty','Nguyen','Nhu_Q.Nguyen@tufts.edu','tnguye01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Mile','Krstev','mile.krstev@tufts.edu','mkrste01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Caroline','Passaacque','caroline.passalacqua@tufts.edu','cpassa01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Emma','Coltoff','emma.coltoff@tufts.edu','ecolto01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Zack','Nassar','zack.nassar@tufts.edu','znassa01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Jillian','Gerke','jillian.gerke@tufts.edu','jgerke01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Caitlin','Duffy','caitlin.duffy@tufts.edu','cduffy01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Lisa','Fantini','lisa.fantini@tufts.edu','lfanti01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Elizabeth','Dossett','Elizabeth.dossett@tufts.edu','edosse01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Jerry','*','brian.bertini@tufts.edu','j*01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Simone(Daisy)','Draper','simone.draper@tufts.edu','sdrape01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Jhanel','Chew','jhanel.chew@gmail.com','jchew01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sanya','Pradhan','sanyapradhan28@gmail.com','spradh01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Michael','Edegware','Michael.Edegware@tufts.edu','medegw01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sara','Pearce-Probst','Sara.Pearce_Probst@tufts.edu','spearc01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Emma','Cus','emma.cusack@tufts.edu','ecus01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Jordan-Tate','Thomas','jordan-tate.thomas@tufts.edu','jthoma01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sonja','Hartmann','InvalidEmail@tufts.edu','shartm01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Tommy','George','Thomas.George@tufts.edu','tgeorg01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Evan','Lorey','Evan.Lorey@tufts.edu','elorey01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Chris','Keyes','christopher.keyes@tufts.edu','ckeyes01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Eleanor','Richard','eleanor.richard@gmail.com','ericha01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Melissa','Moore','melissa.moore@tufts.edu','mmoore01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Lexi','Gilligan','alexandra.gilligan@tufts.edu','lgilli01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Azmina','Karukappadath','azmina.karukappadath@tufts.edu','akaruk01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Terrence','Roh','troh01@tufts.edu','troh01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Becca','Larson','rebecca.larson@tufts.edu','blarso01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Vanessa','Pinto','vanessa.pinto@tufts.edu','vpinto01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Camille-Louise','Mbayo','camille-louise.mbayo@tufts.edu','cmbayo01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Edward','Futterman','Edward.Futterman@tufts.edu','efutte01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Michael','Seleman','Michael.Seleman@tufts.edu','mselem01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Rati','Srinivasan','Rati.Srinivasan7@gmail.com','rsrini01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Sam','Slate','Samuel.Slate@tufts.edu','sslate01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
+('Tom','Depalma','thomas.depalms@tufts.edu','tdepal01','stomp',(SELECT role_id from UserRole where role_name = "Stomper"));
 UPDATE Stomper SET pwd = SHA1(pwd);
 
 
@@ -288,5 +302,18 @@ INSERT INTO Material (name, q_avail, q_reserved, q_removed, max_checkout_q, low_
 ALTER TABLE Transaction AUTO_INCREMENT = 1;
 
 
+/*
+testing api purposes
 
+
+SELECT g.tid,u.uid,u.permissions FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) WHERE u.username = "sheilb01" and u.pwd= SHA1("stomp") limit 1;
+
+IF (binary = "1") SELECT p.permissionName FROM UserPermission as p WHERE p.pid = 1;
+
+
+
+WITH x AS (1) SELECT RIGHT (numbers.id, x) from x INNER JOIN numbers as numbers ON x.n < LEN(u.id);
+*/
+
+SELECT g.tid,u.uid,r.role_name FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) INNER JOIN UserRole as r USING (role_id) WHERE u.username = "sheilb01" and u.pwd="stomp" limit 1;
 
