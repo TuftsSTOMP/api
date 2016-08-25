@@ -55,7 +55,6 @@
             $serverName = $this->config->get('SERVER_NAME');
             $secretKey = base64_decode($this->config->get('JWT')->get('key'));
             $algorithm = $this->config->get('JWT')->get('algorithm');
-            $apiVersion = $this->config->get('API_VERSION_NUMBER');
             
             $data = [
             	'iat'  => $issuedAt,         // Issued at: time when the token was generated
@@ -67,7 +66,7 @@
                 	'tid' 	=> $user["tid"],	// Data related to the signer user
                 	'uid' 	=> $user["uid"], 	// userid from the users table
                     'scope' => $user["scope"], 	// user scope
-                    'api_version' => $apiVersion //The api version used to generate the token
+                    'api_version' => $this->versionNumber //The api version used to generate the token
                 ]
             ];
             
