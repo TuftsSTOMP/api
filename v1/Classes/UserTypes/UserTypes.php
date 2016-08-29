@@ -12,7 +12,7 @@
 		use GetMaterial_trait;
 	} ## Stomper
 	
-	class Admin extends User {
+	class SuperAdmin extends User {
 		use Admin_trait;
 		use GetMaterial_trait;
 	} ## Admin
