@@ -23,7 +23,13 @@
 		public function processLogin() {
 			$username = (isset($_POST["username"])) ? htmlentities($_POST["username"]) : null;						
 			$password = (isset($_POST["password"])) ? htmlentities($_POST["password"]) : null;
-			if(empty($username) || empty($password)) throw new Exception("Either the username or password is empty");			
+			if(empty($username) || empty($password)) { 
+				ob_start();
+				var_dump($_POST);
+				$result = ob_get_clean();
+				error_log($result, 3, "/Users/samheilbron/Desktop/stomp_log.txt");
+				throw new Exception("Either the username or password is empty");	
+			}		
 								
 			return $this->_generateJWT(
 				$this->_getPermissionsOfUserWithEncryptedPassword($username, SHA1($password)));

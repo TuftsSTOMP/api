@@ -50,8 +50,11 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 			WHERE u.role_name = '" . $user_role . "'";
 			
 			$result = $this->implementQueryStream($queryArray);
-			return $result;
-		
+
+			return 
+				array_map(function($element) {
+        			return $element['permission_name'];
+    			}, $result);
 		}
 
 		// List the version of the api used to generate the token / user

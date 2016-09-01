@@ -20,7 +20,7 @@
 
 	try {
     	$user = SecureUser::generate($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
-    	echo $user->processAPI() . "\n";
+    	echo json_encode(array('data' => $user->processAPI())) . "\n";
 	} catch (Exception $e) {
     	echo json_encode(Array('error' => $e->getMessage())) . "\n";
 	}
