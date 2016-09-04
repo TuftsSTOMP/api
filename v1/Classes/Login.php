@@ -55,7 +55,7 @@
 		/* Generate the Json Web Token for a user */
 		private function _generateJWT($user) {
             $issuedAt   = time();
-            $notBefore  = $issuedAt + 15;  //Adding 10 seconds
+            $notBefore  = $issuedAt;  //Adding 0 seconds
         	
 			$expire     = $this->config->get('END_OF_SEMESTER_TIME');//Expiration date. End of semester
             $serverName = $this->config->get('SERVER_NAME');
