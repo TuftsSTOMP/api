@@ -100,7 +100,8 @@
 				$transaction = "INSERT INTO Transaction 
 									(trid, tid, uid, mid, quantity, transaction_date, res_type, action_date) VALUES";
 				foreach ($this->args as $material => $quantity) {
-					$mid = $this->_validateMaterialCheckOut($material, $quantity);
+					//replace _ with ' ' to account for materials with multiple words
+					$mid = $this->_validateMaterialCheckOut(str_replace('_', ' ', $material), $quantity);
 					$transaction .= "(".$trid.", ".$this->tid.", ".$this->uid.", ".$mid.", ".$quantity.", NOW(), '".$res_type."', ADDTIME(NOW(), '14 0:00:00.00')),";
 					$queryArray[] = "UPDATE Material SET 
 										".$q_type." = ".$q_type." + ".$quantity.",

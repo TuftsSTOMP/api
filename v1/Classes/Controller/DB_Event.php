@@ -35,6 +35,7 @@
 		}
 		
 		private function _applyQuery($q) {
+			error_log($q, 3, "/Users/samheilbron/Desktop/stomp_log.txt");
 			$r = $this->conn->query($q);
 			if(!$r) throw new Exception("Query Error. Poorly formatted data");
 			return $r;

@@ -314,6 +314,6 @@ IF (binary = "1") SELECT p.permissionName FROM UserPermission as p WHERE p.pid =
 
 WITH x AS (1) SELECT RIGHT (numbers.id, x) from x INNER JOIN numbers as numbers ON x.n < LEN(u.id);
 */
-
+/*
 SELECT g.tid,u.uid,r.role_name FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) INNER JOIN UserRole as r USING (role_id) WHERE u.username = "sheilb01" and u.pwd="stomp" limit 1;
-
+*/
