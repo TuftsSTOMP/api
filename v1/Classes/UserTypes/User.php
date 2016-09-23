@@ -26,6 +26,7 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 
 			/Stomp/user/permissions
 			/Stomp/user/version
+			/Stomp/user/details
 
 		*/
 
@@ -37,6 +38,9 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 					break;
 				case 'version': 
 					$result = $this->_getApiVersion();
+					break;
+				case 'details':
+					$result = $this->_getDetails(get_class($this));
 					break;
 				default: 
 					throw new Exception("Invalid User Request");
@@ -60,6 +64,17 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 		// List the version of the api used to generate the token / user
 		private function _getApiVersion() {
 			return $this->api_version_gen;
+		}
+
+		private function _getDetails($user_role) {
+			$queryArray[] = "SELECT username, f_name, l_name, phone, email from Stomper 
+			WHERE uid = '". $this->uid ."'";
+
+			$result = $this->implementQueryStream($queryArray);
+			$result[0]['userPermission'] = $this->_getPermissions($user_role);
+			$result[0]['apiVersion'] = $this->_getApiVersion();
+
+			return $result;
 		}
 		
 		protected function validateAndApplyFunction($fn, $args) {

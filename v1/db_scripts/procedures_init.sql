@@ -103,19 +103,20 @@ END$$
 --
 -- Procedure: getTeamTransactionTotal
 -- Parameters: Team id, transaction type
--- still need to update to join transactions of same material (at different times)
 
 DROP PROCEDURE IF EXISTS getTeamTransactionTotal $$
 CREATE PROCEDURE  getTeamTransactionTotal (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, tr.quantity, tr.transaction_date, tr.action_date, tr.res_type 
-			FROM Transaction AS tr 
+		SELECT m.name, SUM(tr.quantity) AS quantity, tr.transaction_date, tr.action_date 
+			FROM Transaction AS tr  
 			INNER JOIN Material AS m 
 			USING (mid) 
-			WHERE tr.tid = tid 
-			AND tr.res_type = transaction_type;
+			WHERE tr.tid = tid
+			AND tr.res_type = transaction_type 
+			GROUP BY m.name;
 END$$
 
 
 
 DELIMITER ; --reset delimiter
+

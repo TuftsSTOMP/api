@@ -39,10 +39,11 @@
 			return $result;
 		}
 		
+		//deal with _ used for combining multi-word materials
 		protected function checkIn() {
 			$queryArray = [];
 			foreach ($this->args as $material => $quantity) {
-				$queryArray[] = "CALL Stomper_CheckIn(".$this->tid.", '".$material."', ".$quantity.")";
+				$queryArray[] = "CALL Stomper_CheckIn(".$this->tid.", '".str_replace('_', ' ', $material)."', ".$quantity.")";
 			}
 			return $this->EndpointResponse($queryArray, false);
 		}
@@ -95,6 +96,11 @@
 		
 		//would like to turn all endpoint responses into a single query stream. not sure how to yet. perhaps v2
 		private function _submitCheckOut($res_type, $q_type) {
+			ob_start();
+			var_dump($this->args);
+			$result = ob_get_clean();
+			error_log($result, 3, "/Users/samheilbron/Desktop/stomp_log.txt");
+			
 			try {
 				$trid = $this->_getNewTransactionID();
 				$transaction = "INSERT INTO Transaction 

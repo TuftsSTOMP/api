@@ -32,8 +32,10 @@
 			return $result;
 		}
 		
+		//include selected=false to help with visualization in app, though it isn't necessary from data management
+		//would like to remove eventually
 		protected function getFullMaterialList() {
-			$query = "SELECT name, LEAST(q_avail, max_checkout_q) AS max_quantity FROM Material";
+			$query = "SELECT name, LEAST(q_avail, max_checkout_q) AS max_quantity, false AS selected FROM Material";
 			return $this->EndpointResponse($query, true);
 		}
 		
