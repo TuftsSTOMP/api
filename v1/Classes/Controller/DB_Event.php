@@ -15,15 +15,6 @@
 		private function _openConnection() {
 			$this->conn = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->dbname);
 			if (mysqli_connect_errno()) throw new Exception("Could not establish connection with database");
-
-			//try {
-    		//	$this->conn = new PDO("mysql:host=$this->dbhost;dbname=$this->dbname", $this->dbuser, $this->dbpass);
-    		//	// set the PDO error mode to exception
-    		//	$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    		//} catch(PDOException $e) {
-    		//	throw $e;
-    		//}
-
 		}
 		
 		private function _getConnection() {
@@ -35,7 +26,6 @@
 		}
 		
 		private function _applyQuery($q) {
-			error_log($q, 3, "/Users/samheilbron/Desktop/stomp_log.txt");
 			$r = $this->conn->query($q);
 			if(!$r) throw new Exception("Query Error. Poorly formatted data");
 			return $r;

@@ -53,7 +53,7 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 			USING (permission_id) INNER JOIN UserRole as u USING ( role_id ) 
 			WHERE u.role_name = '" . $user_role . "'";
 			
-			$result = $this->implementQueryStream($queryArray);
+			$result = $this->EndpointResponse($queryArray, true);
 
 			return 
 				array_map(function($element) {
@@ -70,21 +70,47 @@ Middleware for User types. 1 function handles call to endpoint and otherhandles 
 			$queryArray[] = "SELECT username, f_name, l_name, phone, email from Stomper 
 			WHERE uid = '". $this->uid ."'";
 
-			$result = $this->implementQueryStream($queryArray);
+			$result = $this->EndpointResponse($queryArray, true);
 			$result[0]['userPermission'] = $this->_getPermissions($user_role);
 			$result[0]['apiVersion'] = $this->_getApiVersion();
 
 			return $result;
 		}
+
+		public function updateUser() {
+			$params = $this->args;
+
+			//update all fields. Update password only if passed.
+
+			$queryArray[] =  "UPDATE Stomper
+				SET 
+				f_name='". $params['f_name']    ."', 
+				l_name='". $params['l_name']    ."',
+				email='".  $params['email']     ."',
+				phone='".  $params['phone']     ."'". 
+				(isset($params['pwd']) ? ", pwd = '".  SHA1($params['pwd']) ."'" : "")
+				. "WHERE uid= '".$this->uid. "'";
+
+			return $this->EndpointResponse($queryArray, false, "User Updated Successfully");
+		}
 		
+
+		//
+		//
+		//
 		protected function validateAndApplyFunction($fn, $args) {
 			return $this->{$fn}($args);
 		}
 		
-		protected function EndpointResponse($queryStream, $show_result = false) {
+		//
+		//
+		//
+		protected function EndpointResponse($queryStream, $show_result = false, $msg = "Successful Operation") {
 			try {
 				$response = $this->implementQueryStream($queryStream);
-				return ($show_result) ? $response : $this->genericSuccess();
+				return ($show_result) ? 
+							$response : 
+							array("status" => "Success", "message" => $msg);
 			} catch (Exception $e) {
 				throw $e;
 			}
