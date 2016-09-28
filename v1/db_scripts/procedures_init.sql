@@ -27,7 +27,7 @@ BEGIN
  				LEAVE get_transaction;
  			END IF;
 			
-			SET ind_q = (SELECT quantity FROM TRANSACTION WHERE zid = _zid);
+			SET ind_q = (SELECT quantity FROM Transaction WHERE zid = _zid);
 			IF (Q<ind_q) THEN
 				CALL ReturnQto_Material_and_Transaction(Q, _zid);
 				LEAVE get_transaction;
