@@ -91,7 +91,7 @@ END$$
 DROP PROCEDURE IF EXISTS getTeamTransactionList $$
 CREATE PROCEDURE  getTeamTransactionList (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, tr.quantity, tr.transaction_date, tr.action_date
+		SELECT m.name, m.max_checkout_q, tr.quantity, tr.transaction_date, tr.action_date
 			FROM Transaction AS tr 
 			INNER JOIN Material AS m 
 			USING (mid) 
@@ -107,7 +107,7 @@ END$$
 DROP PROCEDURE IF EXISTS getTeamTransactionTotal $$
 CREATE PROCEDURE  getTeamTransactionTotal (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, SUM(tr.quantity) AS quantity, tr.transaction_date, tr.action_date 
+		SELECT m.name, m.max_checkout_q, SUM(tr.quantity) AS quantity, tr.transaction_date, tr.action_date 
 			FROM Transaction AS tr  
 			INNER JOIN Material AS m 
 			USING (mid) 
