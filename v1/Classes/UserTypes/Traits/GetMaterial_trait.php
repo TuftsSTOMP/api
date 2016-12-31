@@ -12,7 +12,7 @@
 			/Stomp/material/%material%/info
 			/Stomp/material/%material%/transactionTotal
 			
-			/Stomp/getAllMaterials
+			/Stomp/getFullMaterialList
 
 		*/
 		

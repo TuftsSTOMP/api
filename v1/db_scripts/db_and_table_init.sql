@@ -47,30 +47,29 @@ CREATE TABLE Teacher (
 	sid INT NOT NULL,
 	f_name VARCHAR(30) NOT NULL,
 	l_name VARCHAR(30),
-	phone CHAR(11),
 	email VARCHAR(50) NOT NULL,
-	grade INT,
 	FOREIGN KEY ( sid ) REFERENCES School(sid),
 	PRIMARY KEY ( teid )
+);
+
+DROP TABLE IF EXISTS Class;
+CREATE TABLE Class (
+	cid INT NOT NULL AUTO_INCREMENT,
+	teid INT NOT NULL,
+	time_start TIME NOT NULL,
+	time_end TIME NOT NULL,
+	weekday VARCHAR(30) NOT NULL,
+	grade INT NOT NULL,
+	FOREIGN KEY ( teid ) REFERENCES Teacher(teid),
+	PRIMARY KEY ( cid )
 );
 
 DROP TABLE IF EXISTS Team;
 CREATE TABLE Team (
 	tid INT NOT NULL AUTO_INCREMENT,
-	sid INT NOT NULL,
-	class DATETIME NOT NULL,
-	FOREIGN KEY ( sid ) REFERENCES School(sid),
+	cid INT NOT NULL,
+	FOREIGN KEY ( cid ) REFERENCES Class(cid),
 	PRIMARY KEY ( tid )
-);
-
-DROP TABLE IF EXISTS Team_Teacher;
-CREATE TABLE Team_Teacher (
-	zid INT NOT NULL AUTO_INCREMENT,
-	teid INT NOT NULL,
-	tid INT NOT NULL,
-	FOREIGN KEY ( teid ) REFERENCES Teacher(teid),
-	FOREIGN KEY ( tid ) REFERENCES Team(tid),
-	PRIMARY KEY ( zid )
 );
 
 DROP TABLE IF EXISTS Stomper;

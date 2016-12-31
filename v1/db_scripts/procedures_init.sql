@@ -91,7 +91,7 @@ END$$
 DROP PROCEDURE IF EXISTS getTeamTransactionList $$
 CREATE PROCEDURE  getTeamTransactionList (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, m.max_checkout_q, tr.quantity, tr.transaction_date, tr.action_date
+		SELECT m.name, tr.quantity, tr.transaction_date, tr.action_date
 			FROM Transaction AS tr 
 			INNER JOIN Material AS m 
 			USING (mid) 
@@ -107,7 +107,7 @@ END$$
 DROP PROCEDURE IF EXISTS getTeamTransactionTotal $$
 CREATE PROCEDURE  getTeamTransactionTotal (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, m.max_checkout_q, SUM(tr.quantity) AS quantity, tr.transaction_date, tr.action_date 
+		SELECT m.name, SUM(tr.quantity) AS quantity, tr.transaction_date, tr.action_date 
 			FROM Transaction AS tr  
 			INNER JOIN Material AS m 
 			USING (mid) 
@@ -116,6 +116,63 @@ BEGIN
 			GROUP BY m.name;
 END$$
 
+
+
+--
+-- Procedure: newTeacher
+-- Parameters: first_name, last name, email, school
+
+DROP PROCEDURE IF EXISTS newTeacher $$
+CREATE PROCEDURE  newTeacher (first_name VARCHAR(30), last_name VARCHAR(30), email VARCHAR(50), school_name VARCHAR(30))
+BEGIN
+		INSERT INTO Teacher (f_name, l_name, email, sid) 
+			VALUES 
+		(first_name, last_name, email, (SELECT sid from School where name = school_name));
+END$$
+
+
+--
+-- Procedure: newSchool
+-- Parameters: first_name, last name, email, school
+
+DROP PROCEDURE IF EXISTS newSchool $$
+CREATE PROCEDURE  newSchool (
+	name VARCHAR(30),
+	address VARCHAR(50),
+	city VARCHAR(20),
+	zip INT,
+	main_phone CHAR(11))
+BEGIN
+	INSERT INTO School (name, address, city, zip, main_phone) 
+	VALUES 
+		(name, address, city, zip, main_phone);
+END$$
+
+
+--
+-- Procedure: newSchool
+-- Parameters: first_name, last name, email, school
+-- TIME_FORMAT(start_t_string, '%h:%i')
+
+DROP PROCEDURE IF EXISTS newClass $$
+CREATE PROCEDURE  newClass (
+	teacher_email VARCHAR(50),
+	time_range VARCHAR(30),
+	weekday VARCHAR(30),
+	grade INT)
+BEGIN
+	DECLARE start_t_string, end_t_string;
+	SELECT s, e INTO start_t_string, end_t_string FROM STRING_SPLIT(time_range, '-');
+
+	INSERT INTO Class (teid, time_start, time_end, weekday, grade) 
+	VALUES 
+		((SELECT teid from Teacher where email = teacher_email), 
+			NOW(), 
+			NOW(), 
+			weekday, 
+			grade);
+
+END$$
 
 
 DELIMITER ; --reset delimiter
