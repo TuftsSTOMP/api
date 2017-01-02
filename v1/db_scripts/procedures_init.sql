@@ -202,15 +202,16 @@ END$$
 DROP PROCEDURE IF EXISTS newTeam $$
 CREATE PROCEDURE newTeam (
 	teacher_email VARCHAR(50),
-	weekday VARCHAR(30))
+	_weekday VARCHAR(30))
 BEGIN
 
 	INSERT INTO Team (cid)
-		SELECT c.cid
-			FROM Class AS c
-			INNER JOIN Teacher as t
+		(SELECT cid
+			FROM Class AS cl
+			INNER JOIN Teacher AS t
+			USING (teid)
 			WHERE t.email = teacher_email
-			AND c.weekday = weekday;
+			AND weekday = _weekday);
 END$$
 
 
@@ -223,12 +224,19 @@ CREATE PROCEDURE newStomperTeam (
 	first_name VARCHAR(30),
 	last_name VARCHAR(30),
 	teacher_email VARCHAR(50),
-	weekday VARCHAR(30))
+	_weekday VARCHAR(30))
 BEGIN
 
 	INSERT INTO Stomper_Team (tid, uid)
 	VALUES
-		((SELECT tid FROM Team INNER JOIN Class AS c INNER JOIN Teacher as t WHERE t.email = teacher_email AND c.weekday = weekday),
+		((SELECT tid 
+			FROM Team as team
+			INNER JOIN Class as c
+			USING (cid)
+			INNER JOIN Teacher as t
+			USING (teid)
+			WHERE t.email = teacher_email
+			AND c.weekday = _weekday),
 		(SELECT uid from Stomper WHERE f_name = first_name AND l_name = last_name));
 END$$
 
