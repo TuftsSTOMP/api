@@ -150,9 +150,8 @@ END$$
 
 
 --
--- Procedure: newSchool
--- Parameters: first_name, last name, email, school
--- TIME_FORMAT(start_t_string, '%h:%i')
+-- Procedure: newClass
+-- Parameters: teacher email, time range, day of the week, grade
 
 DROP PROCEDURE IF EXISTS newClass $$
 CREATE PROCEDURE  newClass (
@@ -161,19 +160,98 @@ CREATE PROCEDURE  newClass (
 	weekday VARCHAR(30),
 	grade INT)
 BEGIN
-	DECLARE start_t_string, end_t_string;
-	SELECT s, e INTO start_t_string, end_t_string FROM STRING_SPLIT(time_range, '-');
 
 	INSERT INTO Class (teid, time_start, time_end, weekday, grade) 
 	VALUES 
 		((SELECT teid from Teacher where email = teacher_email), 
-			NOW(), 
-			NOW(), 
+			(SELECT SUBSTRING_INDEX(time_range, '-', 1)), 
+			(SELECT SUBSTRING_INDEX(time_range, '-', -1)), 
 			weekday, 
 			grade);
-
 END$$
 
+
+--
+-- Procedure: newStomper
+-- Parameters: stomper info
+
+DROP PROCEDURE IF EXISTS newStomper $$
+CREATE PROCEDURE  newStomper (
+	f_name VARCHAR(30),
+	l_name VARCHAR(30),
+	email VARCHAR(50),
+	username VARCHAR(20))
+BEGIN
+
+	INSERT INTO Stomper (f_name, l_name, email, username, pwd, role_id)
+	VALUES 
+		(f_name, 
+		l_name, 
+		email, 
+		username, 
+		SHA1('stomp'),
+		(SELECT role_id from UserRole where role_name = "Stomper"));
+END$$
+
+
+
+--
+-- Procedure: newTeam
+-- Parameters: team information
+
+DROP PROCEDURE IF EXISTS newTeam $$
+CREATE PROCEDURE newTeam (
+	teacher_email VARCHAR(50),
+	weekday VARCHAR(30))
+BEGIN
+
+	INSERT INTO Team (cid)
+		SELECT c.cid
+			FROM Class AS c
+			INNER JOIN Teacher as t
+			WHERE t.email = teacher_email
+			AND c.weekday = weekday;
+END$$
+
+
+--
+-- Procedure: newStomperTeam
+-- Parameters: stomp team pairing
+
+DROP PROCEDURE IF EXISTS newStomperTeam $$
+CREATE PROCEDURE newStomperTeam (
+	first_name VARCHAR(30),
+	last_name VARCHAR(30),
+	teacher_email VARCHAR(50),
+	weekday VARCHAR(30))
+BEGIN
+
+	INSERT INTO Stomper_Team (tid, uid)
+	VALUES
+		((SELECT tid FROM Team INNER JOIN Class AS c INNER JOIN Teacher as t WHERE t.email = teacher_email AND c.weekday = weekday),
+		(SELECT uid from Stomper WHERE f_name = first_name AND l_name = last_name));
+END$$
+
+
+
+
+--
+-- Procedure: newMaterial
+-- Parameters: new material information
+
+DROP PROCEDURE IF EXISTS newMaterial $$
+CREATE PROCEDURE newMaterial (
+	m_name VARCHAR(40), 
+	m_quantity INT, 
+	m_max_checkout_q INT, 
+	m_low_q_thresh INT, 
+	m_reusable TINYINT(1))
+BEGIN
+
+	INSERT INTO Material (name, q_avail, max_checkout_q, low_q_thresh, reusable) 
+	VALUES 
+		(m_name, m_quantity, m_max_checkout_q, m_low_q_thresh, m_reusable);
+END$$
 
 DELIMITER ; --reset delimiter
 

@@ -56,7 +56,9 @@ CALL newClass("emrozicki@k12.somerville.ma.us", "4:30-5:30", "Monday", 4);
 
 
 ALTER TABLE Stomper AUTO_INCREMENT = 1;
-INSERT INTO Stomper (f_name, l_name, email, username, pwd, role_id)
+CALL newStomper('Sam','Heilbron','samheilbron@gmail.com','sheilb01');
+CALL newStomper('Terrence','Roh','troh01@tufts.edu','troh01');
+/*
 	VALUES 
 ('Devyn', 'Curley', 'InvalidEmail', 'devyn01', 'stomp',(SELECT role_id from UserRole where role_name = "SuperAdmin")),
 ('Alexandria','Trombley','InvalidEmail@tufts.edu','atromb01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
@@ -124,55 +126,27 @@ INSERT INTO Stomper (f_name, l_name, email, username, pwd, role_id)
 ('Sam','Slate','Samuel.Slate@tufts.edu','sslate01','stomp',(SELECT role_id from UserRole where role_name = "Stomper")),
 ('Tom','Depalma','thomas.depalms@tufts.edu','tdepal01','stomp',(SELECT role_id from UserRole where role_name = "Stomper"));
 UPDATE Stomper SET pwd = SHA1(pwd);
-
+*/
 
 ALTER TABLE Team AUTO_INCREMENT = 1;
-INSERT INTO Team (tid, cid) 
-	VALUES 
-	(1, (SELECT c.cid 
-		FROM Class AS c 
-		INNER JOIN Teacher as t
-		WHERE t.email = "emrozicki@k12.somerville.ma.us"
-		AND c.weekday = "Monday"));
-
+CALL newTeam("emrozicki@k12.somerville.ma.us", "Monday");
 
 
 ALTER TABLE Stomper_Team AUTO_INCREMENT = 1;
-INSERT INTO Stomper_Team (tid, uid)
-	VALUES 
-(1,(SELECT uid from Stomper where l_name = 'Heilbron')),
-(1,(SELECT uid from Stomper where l_name = 'Roh'));
+CALL newStomperTeam("Sam", "Heilbron", "emrozicki@k12.somerville.ma.us", "Monday");
+CALL newStomperTeam("Terrence", "Roh", "emrozicki@k12.somerville.ma.us", "Monday");
 
 								
 
 
 ALTER TABLE Material AUTO_INCREMENT = 1;
-INSERT INTO Material (name, q_avail, q_reserved, q_removed, max_checkout_q, low_q_thresh, reusable) 
-	VALUES 
-	('Marbles', 100, 0, 0, 30, 10, 1),
-	('Paper Clips', 50, 0, 0, 10, 5, 0),
-	('NXT Robotics Kits', 25, 0, 0, 4, 0, 1),
-	('Laptops', 15, 0, 0, 4, 0, 1),
-	('Spaghetti Boxes', 25, 0, 0, 5, 5, 0),
-	('Snap Circuits', 8, 0, 0, 2, 0, 1);	 
+CALL newMaterial("Marbles", 100, 30, 10, 1);
+CALL newMaterial('Paper Clips', 50, 10, 5, 0);
+CALL newMaterial('NXT Robotics Kits', 25, 4, 0, 1);
+CALL newMaterial('Laptops', 15, 4, 0, 1);
+CALL newMaterial('Spaghetti Boxes', 25, 5, 5, 0);
+CALL newMaterial('Snap Circuits', 8, 2, 0, 1);
 
 
 
 ALTER TABLE Transaction AUTO_INCREMENT = 1;
-
-
-/*
-testing api purposes
-
-
-SELECT g.tid,u.uid,u.permissions FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) WHERE u.username = "sheilb01" and u.pwd= SHA1("stomp") limit 1;
-
-IF (binary = "1") SELECT p.permissionName FROM UserPermission as p WHERE p.pid = 1;
-
-
-
-WITH x AS (1) SELECT RIGHT (numbers.id, x) from x INNER JOIN numbers as numbers ON x.n < LEN(u.id);
-*/
-/*
-SELECT g.tid,u.uid,r.role_name FROM Stomper AS u LEFT JOIN Stomper_Team AS g USING (uid) INNER JOIN UserRole as r USING (role_id) WHERE u.username = "sheilb01" and u.pwd="stomp" limit 1;
-*/
