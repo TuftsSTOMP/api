@@ -3,10 +3,16 @@
 	require_once 'User.php';
 	
 	require_once "Traits/Stomper_trait.php";
+	require_once "Traits/Guest_trait.php";
 	require_once "Traits/Admin_trait.php";
 	require_once "Traits/Board_trait.php";
 	require_once "Traits/GetMaterial_trait.php";
 	
+	class _Guest extends User {
+		use Guest_trait;
+		use GetMaterial_trait;
+	}
+
 	class Stomper extends User {
 		use Stomper_trait;
 		use GetMaterial_trait;

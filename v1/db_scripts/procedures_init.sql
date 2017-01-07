@@ -82,6 +82,24 @@ BEGIN
 END$$
 
 
+--
+-- Procedure: Guest_ReturnMaterial
+-- Parameters: Material name, quantity to return from that material
+--
+DROP PROCEDURE IF EXISTS Guest_ReturnMaterial $$
+CREATE PROCEDURE  Guest_ReturnMaterial (mat_name VARCHAR(40), remove_quantity INT)
+BEGIN
+
+	DECLARE _mid INT DEFAULT NULL;
+	
+	SELECT mid INTO _mid FROM Material WHERE name = mat_name;
+
+	UPDATE Material SET 
+		q_removed = GREATEST(0, q_removed - remove_quantity),
+		q_avail = q_avail + remove_quantity
+		WHERE mid = _mid;
+END$$
+
 
 
 --
@@ -180,7 +198,9 @@ CREATE PROCEDURE  newStomper (
 	f_name VARCHAR(30),
 	l_name VARCHAR(30),
 	email VARCHAR(50),
-	username VARCHAR(20))
+	username VARCHAR(20),
+	password VARCHAR(30),
+	roleName VARCHAR(30))
 BEGIN
 
 	INSERT INTO Stomper (f_name, l_name, email, username, pwd, role_id)
@@ -189,8 +209,8 @@ BEGIN
 		l_name, 
 		email, 
 		username, 
-		SHA1('stomp'),
-		(SELECT role_id from UserRole where role_name = "Stomper"));
+		SHA1(password),
+		(SELECT role_id from UserRole where role_name = roleName));
 END$$
 
 

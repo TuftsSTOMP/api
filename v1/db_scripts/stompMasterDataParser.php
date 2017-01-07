@@ -10,6 +10,7 @@
 	/**  Define a Read Filter class implementing PHPExcel_Reader_IReadFilter  */ 
 	class MyReadFilter implements PHPExcel_Reader_IReadFilter { 
     	private $_columns  = array(); 
+    	private $_startRow;
 
     	/**  Get the list of rows and columns to read  */ 
     	public function __construct($columns) { 
@@ -41,7 +42,7 @@
 		DELETE FROM Stomper_Team;
 		DELETE FROM Team;
 		DELETE FROM Class;
-		DELETE FROM Stomper;
+		DELETE FROM Stomper WHERE uid > 2;
 		DELETE FROM Teacher;
 		DELETE FROM School;\n\n";
 	fwrite($sqlFile, $text);
@@ -50,8 +51,8 @@
 	loadSchools($objReader, $inputFileName, $sqlFile);
 	loadTeachers($objReader, $inputFileName, $sqlFile);
 	loadStompers($objReader, $inputFileName, $sqlFile);
-
 	loadPairings($objReader, $inputFileName, $sqlFile);
+	loadMaterials($objReader, $inputFileName, $sqlFile);
 
 	fclose($sqlFile);
 
@@ -115,20 +116,22 @@
 	*/
 	function loadStompers($objReader, $inputFileName, $sqlFile) {
 		/**  Tell the Reader that we want to use the Read Filter  **/ 
-		$objReader->setReadFilter(new MyReadFilter(range('A','D'))); 
+		$objReader->setReadFilter(new MyReadFilter(range('A','E'))); 
 		$objReader->setLoadSheetsOnly("Stompers"); 
 
 		/**  Load $inputFileName to a PHPExcel Object  **/
 		$objPHPExcel = $objReader->load($inputFileName);
 		$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 
-		fwrite($sqlFile, "\n\nALTER TABLE Stomper AUTO_INCREMENT = 1;\n");
+		fwrite($sqlFile, "\n\nALTER TABLE Stomper AUTO_INCREMENT = 2;\n");
 		array_shift($sheetData); // Remove first element 
 		foreach($sheetData as $rowData) {
 			$text = "CALL newStomper('".$rowData["A"].
 					"','".$rowData["B"].
 					"','".$rowData["C"].
-					"','".$rowData["D"]."');\n";
+					"','".$rowData["D"].
+					"', 'stomp','".
+					$rowData["E"]."');\n";
 			fwrite($sqlFile, $text);	
 		}
 	}
@@ -149,7 +152,7 @@
 
 		fwrite($sqlFile, "\n\nALTER TABLE Class AUTO_INCREMENT = 1;\n");
 		fwrite($sqlFile, "ALTER TABLE Team AUTO_INCREMENT = 1;\n");
-		fwrite($sqlFile, "ALTER TABLE Stomper_Team AUTO_INCREMENT = 1;\n");
+		fwrite($sqlFile, "ALTER TABLE Stomper_Team AUTO_INCREMENT = 2;\n");
 
 
 		array_shift($sheetData); // Remove first element 
@@ -184,6 +187,32 @@
 				"', '".$rowData["E"].
 					"','".$rowData["C"]."');\n";
 			fwrite($sqlFile, $text);
+		}
+	}
+
+
+	/* 	
+		loadMaterials
+		Read the materials from the excel file and load them into sql script
+	*/
+	function loadMaterials($objReader, $inputFileName, $sqlFile) {
+		/**  Tell the Reader that we want to use the Read Filter  **/ 
+		$objReader->setReadFilter(new MyReadFilter(range('A','E'))); 
+		$objReader->setLoadSheetsOnly("Materials"); 
+
+		/**  Load $inputFileName to a PHPExcel Object  **/
+		$objPHPExcel = $objReader->load($inputFileName);
+		$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+
+		fwrite($sqlFile, "\n\nALTER TABLE Material AUTO_INCREMENT = 1;\n");
+		array_shift($sheetData); // Remove first element 
+		foreach($sheetData as $rowData) {
+			$text = "CALL newMaterial('".$rowData["A"].
+					"',".$rowData["B"].
+					",".$rowData["C"].
+					",".$rowData["D"].
+					",".$rowData["E"].");\n";
+			fwrite($sqlFile, $text);	
 		}
 	}
 

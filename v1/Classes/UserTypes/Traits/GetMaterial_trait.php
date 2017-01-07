@@ -64,5 +64,5 @@
 		}
 		
 
-	} ## Board_trait
+	} ## GetMaterial_trait
 ?>
