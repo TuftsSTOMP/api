@@ -24,7 +24,7 @@
 					$result = $this->_getMaterialInfo($m);
 					break;
 				case 'transactionTotal': 
-					$result = $this->_getMaterialTransactions($m, 'all');
+					$result = $this->_getMaterialTransactions($m);
 					break;
 				default: 
 					throw new Exception("Invalid Material Request");
