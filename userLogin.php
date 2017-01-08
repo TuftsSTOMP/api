@@ -1,8 +1,11 @@
 <?php
 
 /*
- *	userLogin.php
+ *  userLogin.php
+ *  Author: Sam Heilbron
+ *  Last Updated: January 2017
  *
+ *  Handles login query
  */
 	require_once './vendor/autoload.php';
 	use Zend\Config\Factory;

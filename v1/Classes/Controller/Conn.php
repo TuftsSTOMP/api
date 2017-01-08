@@ -3,8 +3,9 @@
 /*
  *	Conn.php
  *	Author: Sam Heilbron
- *	Last Updated: January 2016
+ *	Last Updated: January 2017
  *
+ *	Connects to Database pointed to by Config file
  */
  
  	require_once './vendor/autoload.php';

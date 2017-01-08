@@ -1,5 +1,13 @@
 <?php
 
+/*
+ *  SecureUser.php
+ *  Author: Sam Heilbron
+ *  Last Updated: January 2017
+ *
+ *  Creates the User type from a JWT
+ */
+
  	require_once 'vendor/autoload.php';
 	use Zend\Config\Factory;
 	

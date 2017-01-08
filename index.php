@@ -1,5 +1,15 @@
 <?php
 
+/*
+ *  index.php
+ *  Author: Sam Heilbron
+ *  Last Updated: January 2017
+ *
+ *  Handles all queries to the API which:
+ 		-Are not login related 
+ 		-Have a JWT in the header
+ */
+
 	require_once './vendor/autoload.php';
 	use Zend\Config\Factory;
 	

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ *  API_Controller.php
+ *  Author: Sam Heilbron
+ *  Last Updated: January 2017
+ *
+ *  Foundation of entire API. 
+ */
+
+
 	require_once 'DB_Event.php';
 	abstract class API_Controller extends DB_Event {
 	
@@ -7,7 +16,7 @@
     	protected $endpoint = ''; 
     	protected $descriptor = '';
     	protected $args = Array();
-        protected $versionNumber = '0.1.0';
+        protected $versionNumber = '0.1.1';
     
 	    /* Constructor: __construct
     	 * Allow for CORS, assemble and pre-process the data */
@@ -36,6 +45,7 @@
         	}
     	}
     
+        /* ONLY PUBLIC METHOD: Processes API call, if exists */
     	public function processAPI() {
         	if (method_exists($this, $this->endpoint)) {
     			return $this->_response($this->validateAndApplyFunction($this->endpoint, $this->args)); 

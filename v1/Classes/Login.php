@@ -3,8 +3,9 @@
 /*
  *	Login.php
  *	Author: Sam Heilbron
- *	Last Updated: January 2016
+ *	Last Updated: January 2017
  *
+ *	Handles Login logic
  */
  
  	require_once('vendor/autoload.php');
@@ -20,6 +21,7 @@
 			/* Construct API_Controller */
 			parent::__construct($request);
 		}
+
 		public function processLogin() {
 			$username = (isset($_POST["username"])) ? htmlentities($_POST["username"]) : null;						
 			$password = (isset($_POST["password"])) ? htmlentities($_POST["password"]) : null;

@@ -13,25 +13,12 @@ CREATE TABLE UserPermission (
 	PRIMARY KEY ( permission_id )
 );
 
-ALTER TABLE UserPermission AUTO_INCREMENT = 1;
-INSERT INTO UserPermission (permission_name) 
-	VALUES 
-("stomper"),
-("getMaterial"),
-("createAndEditUser");
-
 DROP TABLE IF EXISTS UserRole;
 CREATE TABLE UserRole(
 	role_id INT NOT NULL AUTO_INCREMENT,
 	role_name VARCHAR(30) NOT NULL,
 	PRIMARY KEY	( role_id )
 );
-
-ALTER TABLE UserRole AUTO_INCREMENT = 1;
-INSERT INTO UserRole (role_name)
-	VALUES
-	("SuperAdmin"),
-	("Stomper");
 
 DROP TABLE IF EXISTS Role_Permission;
 CREATE TABLE Role_Permission (
@@ -42,15 +29,6 @@ CREATE TABLE Role_Permission (
 	FOREIGN KEY ( permission_id ) REFERENCES UserPermission(permission_id),
 	PRIMARY KEY ( zid )
 );
-
-ALTER TABLE Role_Permission AUTO_INCREMENT = 1;
-INSERT INTO Role_Permission (role_id, permission_id)
-	VALUES
-	(2, 1),
-	(2, 2),
-	(1, 3);
-
-	
 
 DROP TABLE IF EXISTS School;
 CREATE TABLE School (
@@ -138,7 +116,7 @@ CREATE TABLE Transaction (
 	uid INT NOT NULL,
 	mid INT NOT NULL,
 	quantity INT NOT NULL,
-	transaction_date DATETIME NOT NULL DEFAULT NOW(),
+	transaction_date DATETIME NOT NULL DEFAULT CURDATE(),
 	res_type enum('remove', 'reserve') NOT NULL DEFAULT 'reserve',
 	action_date DATE NOT NULL,
 	FOREIGN KEY ( tid ) REFERENCES Team( tid ),

@@ -1,6 +1,13 @@
 <?php
 
-/*  create class for db_events. All apis should call this. should be protected by api */
+/*
+ *  DB_Event.php
+ *  Author: Sam Heilbron
+ *  Last Updated: January 2017
+ *
+ *  Query database 
+ */
+
 
 	require_once 'Conn.php';
 	abstract class DB_Event extends Conn {
