@@ -1,11 +1,18 @@
-# api
+# API
 
-This contains all information regarding the stomp material inventory.
-
-This is the develop branch. Please make all changes to this branch. master is the production branch.
+## This contains all information regarding the stomp material inventory.
 
 
-Current Endpoints:
+
+### Current Endpoints:
+
+| Endpoint      			| Stomper 	| Guest | SuperAdmin|
+| ------------------------- |:---------:|:-----:|:---------:|
+| /Stomp/getAllUsers     	| X 		| X 	| X			|
+| /Stomp/checkout/reserve   | X     	|   X 	| X			|
+| zebra stripes 			|       	|    X	|			|
+
+
 
 /Stomp/checkout/reserve
 /Stomp/checkout/remove
