@@ -29,10 +29,10 @@
 			$d = (array_key_exists (1, $this->args)) ? $this->args[1] : null;
 			switch($d) {
 				case 'info': 
-					$result = $this->_getMaterialInfo($m);
+					$result = $this->_getMaterialInfo(str_replace('_', ' ', $m));
 					break;
 				case 'transactionTotal': 
-					$result = $this->_getMaterialTransactions($m);
+					$result = $this->_getMaterialTransactions(str_replace('_', ' ', $m));
 					break;
 				default: 
 					throw new Exception("Invalid Material Request");

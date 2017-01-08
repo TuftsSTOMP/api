@@ -2,6 +2,7 @@
 
 ## This contains all information regarding the stomp material inventory.
 
+#### Version 1.0.0
 
 
 ### Current Endpoints:
