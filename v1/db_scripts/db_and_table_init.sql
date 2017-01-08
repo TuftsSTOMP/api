@@ -116,7 +116,7 @@ CREATE TABLE Transaction (
 	uid INT NOT NULL,
 	mid INT NOT NULL,
 	quantity INT NOT NULL,
-	transaction_date DATETIME NOT NULL DEFAULT CURDATE(),
+	transaction_date DATETIME NOT NULL DEFAULT NOW(),
 	res_type enum('remove', 'reserve') NOT NULL DEFAULT 'reserve',
 	action_date DATE NOT NULL,
 	FOREIGN KEY ( tid ) REFERENCES Team( tid ),

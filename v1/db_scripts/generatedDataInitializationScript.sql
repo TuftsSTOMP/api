@@ -51,6 +51,7 @@ CALL newStomperTeam('Eric', 'Bledsoe', 'ella.ball@tufts.edu','Wednesday');
 ALTER TABLE Material AUTO_INCREMENT = 1;
 CALL newMaterial('Marbles',100,20,5,1);
 CALL newMaterial('NXT Robotics Kit',20,5,0,1);
-CALL newMaterial('Spaghetti Box',20,2,2,0);
+CALL newMaterial('Spaghetti Boxes',20,3,2,0);
 CALL newMaterial('Laptops',15,4,0,1);
 CALL newMaterial('Snap Circuits',10,10,1,1);
+CALL newMaterial('Marshmellow Bag',3,1,0,0);
