@@ -10,6 +10,25 @@ DROP PROCEDURE IF EXISTS Stomper_CheckIn $$
 CREATE PROCEDURE Stomper_CheckIn (team_id INT, mat_name VARCHAR(40), Q INT)
 
 BEGIN
+
+	IF (SELECT reusable FROM Material WHERE name = mat_name) = 1 THEN 
+ 		CALL Stomper_CheckIn_Reusable(team_id, mat_name, Q);
+ 	ELSE
+ 		CALL Stomper_CheckIn_NonReusable(team_id, mat_name, Q);
+ 	END IF;
+
+END$$
+
+
+--
+-- Procedure: Stomper_CheckIn_Reusable
+-- Parameters: team id, material name, quantity to return
+--
+
+DROP PROCEDURE IF EXISTS Stomper_CheckIn_Reusable $$
+CREATE PROCEDURE Stomper_CheckIn_Reusable (team_id INT, mat_name VARCHAR(40), Q INT)
+
+BEGIN
 	DECLARE finished INTEGER DEFAULT 0;
     DECLARE _zid INT;
     DECLARE ind_q INT;
@@ -42,6 +61,51 @@ BEGIN
 
 END$$
 
+
+--
+-- Procedure: Stomper_CheckIn_NonReusable
+-- Parameters: team id, material name, quantity to return
+--
+
+DROP PROCEDURE IF EXISTS Stomper_CheckIn_NonReusable $$
+CREATE PROCEDURE Stomper_CheckIn_NonReusable (team_id INT, mat_name VARCHAR(40), Q INT)
+
+BEGIN
+	DECLARE finished INTEGER DEFAULT 0;
+    DECLARE _zid INT;
+    DECLARE ind_q INT;
+	DEClARE transaction_cursor CURSOR FOR 
+		SELECT tr.zid FROM Transaction AS tr INNER JOIN Material AS m USING (mid) 
+		WHERE tr.tid = team_id AND tr.res_type = "remove" AND m.name = mat_name;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+	
+	open transaction_cursor;
+		get_transaction: LOOP
+ 
+ 			FETCH transaction_cursor INTO _zid;
+ 
+ 			IF finished = 1 THEN 
+ 				LEAVE get_transaction;
+ 			END IF;
+			
+			SET ind_q = (SELECT quantity FROM Transaction WHERE zid = _zid);
+			IF (Q<ind_q) THEN
+				CALL ReturnQto_Material_and_Transaction(Q, _zid);
+				UPDATE Material as m INNER JOIN Transaction as tr USING (mid)
+						SET m.q_removed = 0
+						WHERE tr.zid = _zid;
+				SET Q = 0;
+			ELSE
+				CALL ReturnQto_Material_and_Transaction(ind_q, _zid);
+				SET Q = Q - ind_q;
+			END IF;
+			
+			DELETE from Transaction where zid = _zid;
+ 
+ 		END LOOP get_transaction;
+ 	CLOSE transaction_cursor;
+
+END$$
 
 --
 -- Procedure: ReturnQto_Material_and_Transaction

@@ -37,7 +37,7 @@
 			return $this->EndpointResponse($query, true);
 		}
 
-		protected function new() {
+		protected function new_() {
 			$type = (array_key_exists (0, $this->args)) ? $this->args[0] : null;
 			switch($type) {
 				case 'stomper': 
@@ -61,7 +61,7 @@
 			return $result;
 		}
 
-		protected function edit() {
+		protected function edit_() {
 			$type = (array_key_exists (0, $this->args)) ? $this->args[0] : null;
 			switch($type) {
 				case 'stomper': 
