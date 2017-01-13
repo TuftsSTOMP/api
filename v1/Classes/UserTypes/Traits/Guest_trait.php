@@ -49,7 +49,6 @@
 					//replace _ with ' ' to account for materials with multiple words
 					$mid = $this->_validateMaterialRemove(str_replace('_', ' ', $material), $quantity);
 					$queryArray[] = "UPDATE Material SET 
-										q_removed = q_removed + ".$quantity.",
 										q_avail = q_avail - ".$quantity."
 									 WHERE mid = '".$mid."'";
 				}

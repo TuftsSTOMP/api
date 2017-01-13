@@ -16,7 +16,7 @@
     	protected $endpoint = ''; 
     	protected $descriptor = '';
     	protected $args = Array();
-        protected $versionNumber = '1.0.0';
+        protected $versionNumber = '1.0.1';
     
 	    /* Constructor: __construct
     	 * Allow for CORS, assemble and pre-process the data */

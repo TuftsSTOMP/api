@@ -151,7 +151,7 @@ END$$
 -- Parameters: Material name, quantity to return from that material
 --
 DROP PROCEDURE IF EXISTS Guest_ReturnMaterial $$
-CREATE PROCEDURE  Guest_ReturnMaterial (mat_name VARCHAR(40), remove_quantity INT)
+CREATE PROCEDURE  Guest_ReturnMaterial (mat_name VARCHAR(40), return_quantity INT)
 BEGIN
 
 	DECLARE _mid INT DEFAULT NULL;
@@ -159,8 +159,7 @@ BEGIN
 	SELECT mid INTO _mid FROM Material WHERE name = mat_name;
 
 	UPDATE Material SET 
-		q_removed = GREATEST(0, q_removed - remove_quantity),
-		q_avail = q_avail + remove_quantity
+		q_avail = q_avail + return_quantity
 		WHERE mid = _mid;
 END$$
 
@@ -173,10 +172,12 @@ END$$
 DROP PROCEDURE IF EXISTS getTeamTransactionList $$
 CREATE PROCEDURE  getTeamTransactionList (tid INT, transaction_type VARCHAR(20))
 BEGIN
-		SELECT m.name, tr.quantity, tr.transaction_date, tr.action_date
+		SELECT s.f_name, s.l_name, m.name, tr.quantity, tr.transaction_date, tr.action_date
 			FROM Transaction AS tr 
 			INNER JOIN Material AS m 
 			USING (mid) 
+			INNER JOIN Stomper as s
+			USING (uid)
 			WHERE tr.tid = tid 
 			AND tr.res_type = transaction_type;
 END$$
@@ -346,4 +347,3 @@ BEGIN
 END$$
 
 DELIMITER ; --reset delimiter
-
